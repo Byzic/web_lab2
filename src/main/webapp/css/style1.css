@@ -1,0 +1,142 @@
+
+body{
+    padding: 30px;
+    font-family: cursive;
+    max-width: 1500px;
+    max-height: 1500px;
+    background: url(../img/pattern.png) repeat;
+
+}
+#group::after{
+    content: "❤";
+}
+td{
+    padding: 20px;
+    border: 5px solid #4F8A8B;
+}
+table {
+    background-color: #F4F6FF;
+    border-radius: 2px;
+}
+.header__text {
+    font-family: cursive;
+    font-size: 20px;
+    color: black;
+    padding: 10px 40px;
+}
+.scroll-container {
+    width: 100%;
+    max-height: 500px;
+    overflow-x: auto;
+}
+#result-table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+#result-table tb{
+    border: 1px solid #4F8A8B;
+    text-align: center;
+}
+
+.headerimg{
+    max-width: 200px;
+    max-height: 200px;
+    padding: 10px;
+}
+td.task__result {
+    text-align: center;
+    vertical-align: top;
+}
+td.task__result p{
+    margin: 80px 0 0 0 ;
+}
+
+.graph {
+    width: 200px;
+    height: 200px;
+    margin: 20px;
+}
+span {
+    color: #FFCB74;
+    font-size: 20px;
+    text-shadow:1px 1px 2px  #264242;
+    margin: 0 40px 0 10px;
+}
+
+.choice__values input{
+    margin: 0 25px;
+}
+.choice__values input:hover{
+    box-shadow: 0 0 5px 3px #FFCB74 ;
+}
+
+#x_text_field{
+    border: 2px solid #4F8A8B;
+    width: 300px;
+    height: 50px;
+    font-size: 20px;
+    text-align: center;
+    margin: 0 40px ;
+}
+
+.r-button{
+    margin: 0 30px;
+    width: 45px;
+    height: 45px;
+    font-family: cursive;
+    font-size: medium;
+    border:  3px solid #4F8A8B;
+    border-radius: 2px;
+    background-color: #FFCB74;
+    color:#264242 ;
+
+}
+.active{
+    box-shadow: 0 0 5px 3px #FFCB74 ;
+    background-color: #c3c9df;
+    border:  2px solid #FFCB74;
+}
+
+button#button_submit{
+    margin: 0 40%;
+    width: 200px;
+    height:50px;
+    font-family: cursive;
+    font-size: medium;
+    border:  3px solid #FFCB74;
+    border-radius: 2px;
+    background-color: #d5daee ;
+    color:#264242 ;
+}
+button:hover{
+    box-shadow: 0 0 5px 3px #FFCB74 ;
+    background-color: #c3c9df;
+    border:  2px solid #FFCB74;
+}
+#errors{
+    border:5px solid #d5daee;
+
+}
+#errors p{
+    text-align: center;
+    color:red;
+
+}
+.red {
+    border: 5px solid #e38585;
+    box-shadow: inset 0px 0 5px 3px #e38585 ;
+}
+div.canvas {
+    display: flex;
+    justify-content: center;
+    height: 400px;
+
+
+}
+h2{
+    text-align: center;
+}
+
+
+
