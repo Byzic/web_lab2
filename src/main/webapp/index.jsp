@@ -5,8 +5,9 @@
   Time: 14:24
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page import="beans.PointEntry" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<jsp:useBean id="shotForBean" class="beans.Results" scope="session"/>
 <html lang="ru">
 <head>
     <link rel="icon" href="img/icon.png">
@@ -107,9 +108,27 @@
                         <th class="time-col">Время работы скрипта</th>
                         <th class="hitres-col">Результат</th>
                     </tr>
+                    <c:forEach var="result" items="${shotForBean.listWithPoints}">
+                        <tr>
+                            <td>${result.x}</td>
+                            <td>${result.y}</td>
+                            <td>${result.r}</td>
+                            <td>${result.currentTime}</td>
+                            <td>${result.executeTime} sec</td>
+                            <c:if test="${result.inArea == true}">
+                                <td>
+                                    <div style="color:#4F8A8B">${(result.inArea)}</div>
+                                </td>
+                            </c:if>
+                            <c:if test="${result.inArea == false}">
+                                <td>
+                                    <div style="color:#e38585">${(result.inArea)}</div>
+                                </td>
+                            </c:if>
+                        </tr>
+                    </c:forEach>
                 </table>
             </div>
-
         </td>
     </tr>
 
