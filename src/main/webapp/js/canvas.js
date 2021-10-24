@@ -7,24 +7,26 @@ function drawCanv(){
     const EDOTREZOK=(HEIGHT-50)/10;
     canv.width=WIDTH;
     canv.height=HEIGHT;
-
     //прямоугольник
     ctx.fillStyle="#FFCB74";
     ctx.fillRect(WIDTH/2, HEIGHT/2, EDOTREZOK, 2*EDOTREZOK);
 
     //треугольник
-    ctx.beginPath();
     ctx.moveTo(WIDTH/2,HEIGHT/2);
     ctx.lineTo(WIDTH/2,HEIGHT/2-EDOTREZOK);
     ctx.lineTo(WIDTH/2-2*EDOTREZOK,HEIGHT/2);
     ctx.fill();
-    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(WIDTH/2,HEIGHT/2);
+    ctx.lineTo(WIDTH/2,HEIGHT/2+2*EDOTREZOK);
+    ctx.lineTo(WIDTH/2-2*EDOTREZOK,HEIGHT/2);
+    ctx.fill();
 
     //окружность
-    ctx.beginPath();
+
     ctx.arc(WIDTH/2,HEIGHT/2,2*EDOTREZOK,Math.PI/2,Math.PI);
     ctx.fill();
-    ctx.stroke();
 
     ctx.fillStyle="#000000";
     //ось ординат

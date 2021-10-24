@@ -54,7 +54,6 @@ $(document).ready(function(){
         inputX=xFromCanvas.toFixed(2);
         findNearestY();
         console.log(inputX,inputY);
-        alert("отправляем запрос!");
         sendCheckAreaRequest(inputX,inputY,inputR);
         console.log('пришло');
 
@@ -140,18 +139,23 @@ function drawFigures(){
     ctx.fillRect(WIDTH/2, HEIGHT/2, RADIUS, 2*RADIUS);
 
     //треугольник
-    ctx.beginPath();
     ctx.moveTo(WIDTH/2,HEIGHT/2);
     ctx.lineTo(WIDTH/2,HEIGHT/2-RADIUS);
     ctx.lineTo(WIDTH/2-2*RADIUS,HEIGHT/2);
     ctx.fill();
-    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(WIDTH/2,HEIGHT/2);
+    ctx.lineTo(WIDTH/2,HEIGHT/2+2*RADIUS);
+    ctx.lineTo(WIDTH/2-2*RADIUS,HEIGHT/2);
+    ctx.fill();
+
 
     //окружность
-    ctx.beginPath();
+
     ctx.arc(WIDTH/2,HEIGHT/2,2*RADIUS,Math.PI/2,Math.PI);
     ctx.fill();
-    ctx.stroke();
+
     //ось ординат
 
     ctx.beginPath();
@@ -298,18 +302,40 @@ function removeError(elem){
     elem.css("box-shadow", "");
 }
 function sendCheckAreaRequest(x, y, r) {
-    return $.post("/process", {
+var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'process',true);
+    xhr.send({
         'x': x,
         'y': y,
         'r': r
-    }).done(function (result, status, xhr) {
-        alert("ответ с сервера пришел")
-        if (xhr.getResponseHeader('isValid') === "true") {
-            //$('#result-table tr:first').after(result);
-            alert(result);
-            return true;
-        }
-    })}
+    });
+
+    xhr.onload = function () {
+        console.log(xhr.responseText);
+    }
+}
+
+
+    // return $.post("/check", {
+    //     'x': x,
+    //      'y': y,
+    //      'r': r
+    // }).done(function() {
+    //     alert( "second success" );
+    // })
+    //     .fail(function(data) {
+    //         alert( data.responseText );
+    //     })
+    //     }
+    //done((function (result, status, xhr) {
+    //     alert("ответ с сервера пришел")
+    //
+    //     alert(result);
+    //
+    //
+    // }).fail(function(result, status,xhr){
+    //         console.log(xhr.responseText);
+    //     }))}
 
 
 
