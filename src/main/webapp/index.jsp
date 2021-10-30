@@ -5,9 +5,12 @@
   Time: 14:24
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page import="beans.PointEntry" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Collections" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="shotForBean" class="beans.Results" scope="session"/>
+<jsp:useBean id="results" class="beans.Results" scope="session"/>
 <html lang="ru">
 <head>
     <link rel="icon" href="img/icon.png">
@@ -101,32 +104,25 @@
             <div class="scroll-container">
                 <table id="result-table" width=100%>
                     <tr class="table-header">
-                        <th class="coords-col">X</th>
-                        <th class="coords-col">Y</th>
-                        <th class="coords-col">R</th>
+                        <th class="coord">X</th>
+                        <th class="coord">Y</th>
+                        <th class="coord">R</th>
                         <th class="time-col">Текущее время</th>
                         <th class="time-col">Время работы скрипта</th>
                         <th class="hitres-col">Результат</th>
                     </tr>
-                    <c:forEach var="result" items="${shotForBean.listWithPoints}">
+                    <% List<PointEntry> list = results.getListWithPoints();
+                        for (PointEntry result: list) { %>
                         <tr>
-                            <td>${result.x}</td>
-                            <td>${result.y}</td>
-                            <td>${result.r}</td>
-                            <td>${result.currentTime}</td>
-                            <td>${result.executeTime} sec</td>
-                            <c:if test="${result.inArea == true}">
-                                <td>
-                                    <div style="color:#4F8A8B">${(result.inArea)}</div>
-                                </td>
-                            </c:if>
-                            <c:if test="${result.inArea == false}">
-                                <td>
-                                    <div style="color:#e38585">${(result.inArea)}</div>
-                                </td>
-                            </c:if>
+                            <td class="coordX"><%=result.getX()%></td>
+                            <td class="coordY"><%=result.getY()%></td>
+                            <td class="coordR"><%=result.getR()%></td>
+                            <td><%=result.getCurrentTime()%></td>
+                            <td><%=result.getExecuteTime()%> sec</td>
+                            <td><%=result.isInArea()%></td>
                         </tr>
-                    </c:forEach>
+                    <% } %>
+
                 </table>
             </div>
         </td>

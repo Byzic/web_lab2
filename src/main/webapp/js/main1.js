@@ -13,6 +13,7 @@ errorR.textContent = "Значение R  не выбрано";
 let inputY;
 let inputX;
 let inputR;
+
 let canvas=document.getElementById("canvas");
 let ctx = canvas.getContext('2d');
 const Y_VALUES = [-3.0,-2.0, -1.0,  0.0,  1.0,  2.0, 3.0, 4.0, 5.0];
@@ -34,6 +35,7 @@ $(document).ready(function(){
         errorR.remove();
         removeError($('#r'));
         drawFigures();
+        drawPoints();
     });
 
 
@@ -114,7 +116,17 @@ $(document).ready(function(){
 
 
 });
+function drawPoints(){
+
+    let pointX = Array.from(document.getElementsByClassName("coordX")).map(v => v.innerHTML);
+    let pointY = Array.from(document.getElementsByClassName("coordY")).map(v => v.innerHTML);
+    console.log(document.getElementsByClassName("coordX"));
+    for (let i=0;i<pointX.length;i++){
+        drawPoint(pointX[i]*EDOTREZOK+canvas.width/2,-pointY[i]*EDOTREZOK+canvas.height/2);
+    }
+}
 function drawPoint(x,y){
+    console.log("точка",x,y)
     ctx.fillStyle="#4F8A8B";
     ctx.setLineDash([2, 2]);
     ctx.beginPath();
@@ -139,6 +151,7 @@ function drawFigures(){
     ctx.fillRect(WIDTH/2, HEIGHT/2, RADIUS, 2*RADIUS);
 
     //треугольник
+    ctx.beginPath();
     ctx.moveTo(WIDTH/2,HEIGHT/2);
     ctx.lineTo(WIDTH/2,HEIGHT/2-RADIUS);
     ctx.lineTo(WIDTH/2-2*RADIUS,HEIGHT/2);
@@ -152,9 +165,9 @@ function drawFigures(){
 
 
     //окружность
-
     ctx.arc(WIDTH/2,HEIGHT/2,2*RADIUS,Math.PI/2,Math.PI);
     ctx.fill();
+
 
     //ось ординат
 
@@ -302,42 +315,35 @@ function removeError(elem){
     elem.css("box-shadow", "");
 }
 function sendCheckAreaRequest(x, y, r) {
-var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'process',true);
-    xhr.send({
+    return $.post("process", {
         'x': x,
         'y': y,
         'r': r
-    });
+    }).done(function (data) {
 
-    xhr.onload = function () {
-        console.log(xhr.responseText);
-    }
+        if (data === "INVALID VALUES" || data == null || data==="") {
+            return;
+        }
+        else {
+            $("#result-table tr:gt(0)").remove();
+            console.log(data);
+            let result = JSON.parse(data);
+            for (let i in result.response){
+                    let newRow = '<tr>';
+                    newRow += '<td class="coordX">' + result.response[i].xval + '</td>';
+                    newRow += '<td class="coordY">' + result.response[i].yval + '</td>';
+                    newRow += '<td>' + result.response[i].rval + '</td>';
+                    newRow += '<td>' + result.response[i].executeTime + '</td>';
+                    newRow += '<td>' + result.response[i].currentTime + '</td>';
+                    newRow += '<td>' + result.response[i].result + '</td>';
+                    $('#result-table').append(newRow);
+            }
+        }
+    })
+
+
+
 }
-
-
-    // return $.post("/check", {
-    //     'x': x,
-    //      'y': y,
-    //      'r': r
-    // }).done(function() {
-    //     alert( "second success" );
-    // })
-    //     .fail(function(data) {
-    //         alert( data.responseText );
-    //     })
-    //     }
-    //done((function (result, status, xhr) {
-    //     alert("ответ с сервера пришел")
-    //
-    //     alert(result);
-    //
-    //
-    // }).fail(function(result, status,xhr){
-    //         console.log(xhr.responseText);
-    //     }))}
-
-
 
 
 

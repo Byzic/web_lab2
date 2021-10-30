@@ -33,27 +33,24 @@ public class AreaCheckServlet extends HttpServlet {
         String strY = req.getParameter("y").replace(',', '.');
         String strR = req.getParameter("r").replace(",", ".");
         try {
-            x = Double.parseDouble(strX);
-            y = Double.parseDouble(strY);
-            r = Double.parseDouble(strR);
+                x = Double.parseDouble(strX);
+                y = Double.parseDouble(strY);
+                r = Double.parseDouble(strR);
+
             if (isValid(x,y,r)){
                 PointEntry entry=createPointEntry(x,y,r, startTime);
                 results.getListWithPoints().add(entry);
+                System.out.println("В сессию:");
+                System.out.println(results.getListWithPoints());
                 req.getSession().setAttribute("results", results);
+                pw.write(results.toJson());
 
-            } else {
-                pw.println(results.toJson());
-                return;
             }
-            req.getSession().setAttribute("shotForBean", results);
-            req.getRequestDispatcher(("resultPage.jsp")).forward(req, resp);
-
-
-
-        } catch (NumberFormatException | ServletException e) {
-
+        } catch (NumberFormatException e) {
+            pw.write("INVALID VALUES");
+        }finally {
+            pw.close();
         }
-
 
 
     }
