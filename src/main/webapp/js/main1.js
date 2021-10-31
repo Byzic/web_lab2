@@ -60,55 +60,18 @@ $(document).ready(function(){
         console.log('пришло');
 
     });
-    function findNearestY(){
-        let minDifference=Infinity;
-        for (let i = 0; i < Y_VALUES.length; i++) {
-            if (Math.abs(yFromCanvas - Y_VALUES[i]) < minDifference) {
-                minDifference = Math.abs(yFromCanvas - Y_VALUES[i]);
-                inputY = Y_VALUES[i];
-            }
-        }
-    }
-
-
 
     $('#main-form').on('submit', function(event) {
         event.preventDefault();
         if (!validateForm()) {
             return;
         } else {
-            let data= 'x='+inputX+'&y='+inputY;
-            for (let i=0;i<massivWithR.length;i++){
-                data+='&r[]='+massivWithR[i];
 
-            }
-            data += '&timezone=' + new Date().getTimezoneOffset();
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'https://se.ifmo.ru/~s311701/php/main.php'+'?'+data,true);
-            xhr.send();
-            xhr.onload = function () {
-                if (xhr.status != 200) {
-                    alert(`Ошибка ${xhr.status}: ${xhr.statusText}`);
-                    alert(xhr.responseText);
-                } else {
-                    console.log(xhr.responseText);
-                    let result = JSON.parse(xhr.responseText);
+             massivWithY.forEach(function (inputY){
+                 sendCheckAreaRequest(inputX,inputY,inputR);
+                 drawPoint(inputX*EDOTREZOK+canvas.width/2,-inputY*EDOTREZOK+canvas.height/2);
+             })
 
-                    for (let i in result.response){
-                        if (result.response[i].validate) {
-                            let newRow = '<tr>';
-                            newRow += '<td>' + result.response[i].xval + '</td>';
-                            newRow += '<td>' + result.response[i].yval + '</td>';
-                            newRow += '<td>' + result.response[i].rval + '</td>';
-                            newRow += '<td>' + result.response[i].curtime + '</td>';
-                            newRow += '<td>' + result.response[i].scripttime + '</td>';
-                            newRow += '<td>' + result.response[i].inarea + '</td>';
-                            $('#result-table').append(newRow);
-                        }
-                    }
-
-                }
-            };
 
         }
         $('#main-form').trigger('reset');
@@ -116,6 +79,15 @@ $(document).ready(function(){
 
 
 });
+function findNearestY(){
+    let minDifference=Infinity;
+    for (let i = 0; i < Y_VALUES.length; i++) {
+        if (Math.abs(yFromCanvas - Y_VALUES[i]) < minDifference) {
+            minDifference = Math.abs(yFromCanvas - Y_VALUES[i]);
+            inputY = Y_VALUES[i];
+        }
+    }
+}
 function drawPoints(){
 
     let pointX = Array.from(document.getElementsByClassName("coordX")).map(v => v.innerHTML);
@@ -315,14 +287,14 @@ function removeError(elem){
     elem.css("box-shadow", "");
 }
 function sendCheckAreaRequest(x, y, r) {
+    console.log(x,y,r)
     return $.post("process", {
         'x': x,
         'y': y,
         'r': r
     }).done(function (data) {
-
         if (data === "INVALID VALUES" || data == null || data==="") {
-            return;
+            console.log("INVALID VALUES");
         }
         else {
             $("#result-table tr:gt(0)").remove();
@@ -340,6 +312,9 @@ function sendCheckAreaRequest(x, y, r) {
             }
         }
     })
+        .fail(function (err) {
+            alert(err);
+        });
 
 
 
@@ -349,36 +324,6 @@ function sendCheckAreaRequest(x, y, r) {
 
 
 
-
-// function start(){
-//     // var xhr = new XMLHttpRequest();
-//     // xhr.open('GET', 'https://se.ifmo.ru/~s311701/php/main.php',true);
-//     // xhr.send();
-//
-//     xhr.onload = function () {
-//         if (xhr.status != 200) {
-//             alert(`Ошибка ${xhr.status}: ${xhr.statusText}`);
-//             alert(xhr.responseText);
-//         } else {
-//             console.log(xhr.responseText);
-//             let result = JSON.parse(xhr.responseText);
-//
-//             for (let i in result.response){
-//                 if (result.response[i].validate) {
-//                     let newRow = '<tr>';
-//                     newRow += '<td>' + result.response[i].xval + '</td>';
-//                     newRow += '<td>' + result.response[i].yval + '</td>';
-//                     newRow += '<td>' + result.response[i].rval + '</td>';
-//                     newRow += '<td>' + result.response[i].curtime + '</td>';
-//                     newRow += '<td>' + result.response[i].scripttime + '</td>';
-//                     newRow += '<td>' + result.response[i].inarea + '</td>';
-//                     $('#result-table').append(newRow);
-//                 }
-//             }
-//
-//         }
-//     };
-// }
 
 
 
