@@ -1,4 +1,4 @@
-let elemWithErrors=document.getElementById('button_and_errors')
+
 let errorX1= document.createElement("p");
 errorX1.textContent = "Значение X не является числом";
 let errorX2= document.createElement("p");
@@ -24,8 +24,8 @@ const WIDTH=800;
 const EDOTREZOK=(HEIGHT-50)/10;
 
 
-$('button').slideUp( 'slow');
-$('button').slideDown( 'slow');
+//$('button').slideUp( 'slow');
+//$('button').slideDown( 'slow');
 // start();
 $(document).ready(function(){
     $('.r-button').click(function(){
@@ -48,16 +48,15 @@ $(document).ready(function(){
         }
         xFromCanvas=(event.offsetX-canvas.width/2)/EDOTREZOK;
         yFromCanvas=-(event.offsetY-canvas.height/2)/EDOTREZOK;
-        console.log(xFromCanvas,yFromCanvas);
         drawPoint(event.offsetX,event.offsetY);
         if(xFromCanvas <= -3||yFromCanvas<-3||xFromCanvas>=5||yFromCanvas>5){
             return;
         }
         inputX=xFromCanvas.toFixed(2);
         findNearestY();
-        console.log(inputX,inputY);
+
         sendCheckAreaRequest(inputX,inputY,inputR);
-        console.log('пришло');
+
 
     });
 
@@ -92,13 +91,11 @@ function drawPoints(){
 
     let pointX = Array.from(document.getElementsByClassName("coordX")).map(v => v.innerHTML);
     let pointY = Array.from(document.getElementsByClassName("coordY")).map(v => v.innerHTML);
-    console.log(document.getElementsByClassName("coordX"));
     for (let i=0;i<pointX.length;i++){
         drawPoint(pointX[i]*EDOTREZOK+canvas.width/2,-pointY[i]*EDOTREZOK+canvas.height/2);
     }
 }
 function drawPoint(x,y){
-    console.log("точка",x,y)
     ctx.fillStyle="#4F8A8B";
     ctx.setLineDash([2, 2]);
     ctx.beginPath();
@@ -287,7 +284,6 @@ function removeError(elem){
     elem.css("box-shadow", "");
 }
 function sendCheckAreaRequest(x, y, r) {
-    console.log(x,y,r)
     return $.post("process", {
         'x': x,
         'y': y,
@@ -297,9 +293,10 @@ function sendCheckAreaRequest(x, y, r) {
             console.log("INVALID VALUES");
         }
         else {
+            //console.log(data);
             $("#result-table tr:gt(0)").remove();
-            console.log(data);
             let result = JSON.parse(data);
+            console.log(data);
             for (let i in result.response){
                     let newRow = '<tr>';
                     newRow += '<td class="coordX">' + result.response[i].xval + '</td>';
@@ -310,7 +307,7 @@ function sendCheckAreaRequest(x, y, r) {
                     newRow += '<td>' + result.response[i].result + '</td>';
                     $('#result-table').append(newRow);
             }
-        }
+            }
     })
         .fail(function (err) {
             alert(err);

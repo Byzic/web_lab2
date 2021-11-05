@@ -15,7 +15,7 @@
 <head>
     <link rel="icon" href="img/icon.png">
     <link  rel="stylesheet" href="css/style1.css">
-    <title>Лабораторная №1</title>
+    <title>Лабораторная №2</title>
     <meta charset="UTF-8">
 </head>
 <body onload="drawCanv()">
@@ -29,7 +29,7 @@
         <td class="header__text" width="80%" >
             <p >Бызова Валерия Сергеевна</p>
             <p id="group" >группа 3212</p>
-            <p>Вариант: 12004</p>
+            <p>Вариант: 12028</p>
         </td>
     </tr>
 
@@ -107,8 +107,8 @@
                         <th class="coord">X</th>
                         <th class="coord">Y</th>
                         <th class="coord">R</th>
-                        <th class="time-col">Текущее время</th>
                         <th class="time-col">Время работы скрипта</th>
+                        <th class="time-col">Текущее время</th>
                         <th class="hitres-col">Результат</th>
                     </tr>
                     <% List<PointEntry> list = results.getListWithPoints();
@@ -132,7 +132,7 @@
 
 </table>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script  src="js/main1.js"></script>
+<script  src="js/main.js"></script>
 <script src="js/canvas.js"></script>
 </body>
 </html>
